@@ -1,388 +1,194 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SERVICE HUB</title>
-
-<style>
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#050505;
-    color:white;
-}
-
-header{
-    background:linear-gradient(135deg,#000,#0055ff);
-    padding:20px;
-    text-align:center;
-    position:relative;
-}
-
-header h1{
-    margin:5px;
-}
-
-.install{
-    position:absolute;
-    right:10px;
-    top:10px;
-    background:#00c853;
-    color:white;
-    padding:8px;
-    border-radius:8px;
-    font-size:12px;
-    text-decoration:none;
-}
-
-.container{
-    padding:15px;
-}
-
-.app{
-    background:#111827;
-    border-radius:15px;
-    padding:15px;
-    margin-bottom:15px;
-    text-align:center;
-    box-shadow:0 0 10px #0066ff;
-}
-
-.app img{
-    width:70px;
-    height:70px;
-    border-radius:15px;
-}
-
-.app a{
-    color:white;
-    text-decoration:none;
-}
-
-h2{
-    color:#00aaff;
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CitizenSim - La Vie Complète</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: #0b1120; color: #e2e8f0; min-height: 100vh; display: flex; justify-content: center; padding: 15px; }
+        #app { max-width: 500px; width: 100%; }
+        
+        .header { background: #1e293b; padding: 20px; border-radius: 20px; text-align: center; margin-bottom: 15px; border-bottom: 4px solid #3b82f6; }
+        .header h1 { font-size: 24px; color: #60a5fa; }
+        
+        .stats-box { background: #1e293b; padding: 15px; border-radius: 20px; margin-bottom: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 14px; }
+        .stat-item { background: #0f172a; padding: 8px 12px; border-radius: 10px; display: flex; justify-content: space-between; }
+        .stat-item span { color: #94a3b8; }
+        
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        button { background: #2563eb; color: white; border: none; padding: 15px; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.1s; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        button:active { transform: scale(0.95); background: #1d4ed8; }
+        
+        .btn-danger { background: #dc2626; }
+        .btn-danger:active { background: #b91c1c; }
+        .btn-success { background: #16a34a; }
+        .btn-success:active { background: #15803d; }
+        .btn-gold { background: #ca8a04; }
+        .btn-gold:active { background: #a16207; }
+        .btn-purple { background: #7c3aed; }
+        .btn-purple:active { background: #6d28d9; }
+        
+        .msg-box { background: #1e293b; padding: 15px; border-radius: 15px; text-align: center; min-height: 60px; border-left: 5px solid #3b82f6; margin-top: 10px; }
+        
+        @media (max-width: 400px) { .stats-box { grid-template-columns: 1fr; } }
+    </style>
 </head>
-
 <body>
+<div id="app">
+    <div class="header"><h1>🇭🇹 CitizenSim</h1><div style="font-size:13px; color:#94a3b8;">Simulateur de Vie Citoyenne</div></div>
 
-<header>
+    <div class="stats-box" id="statsContainer">
+        <div class="stat-item"><span>👤 Nom</span> <b id="s_nom">Jean</b></div>
+        <div class="stat-item"><span>🎂 Âge</span> <b id="s_age">18</b></div>
+        <div class="stat-item"><span>💰 Argent</span> <b id="s_argent">100</b></div>
+        <div class="stat-item"><span>💎 Diamants</span> <b id="s_diamant">10</b></div>
+        <div class="stat-item"><span>😊 Bonheur</span> <b id="s_bonheur">80</b></div>
+        <div class="stat-item"><span>⚡ Énergie</span> <b id="s_energie">100</b></div>
+        <div class="stat-item"><span>📰 Popularité</span> <b id="s_pop">0</b></div>
+        <div class="stat-item"><span>🎓 Diplôme</span> <b id="s_diplome">Aucun</b></div>
+        <div class="stat-item"><span>👮 Casier</span> <b id="s_casier">Propre</b></div>
+        <div class="stat-item"><span>👥 Amis</span> <b id="s_amis">0</b></div>
+        <div class="stat-item"><span>💼 Métier</span> <b id="s_metier">Chômeur</b></div>
+        <div class="stat-item"><span>💍 Famille</span> <b id="s_famille">Célibataire</b></div>
+    </div>
 
-<a class="install" href="#">
-📲 Installer
-</a>
+    <!-- MENU PRINCIPAL -->
+    <div class="menu-grid">
+        <button onclick="action('travail')">💼 Travailler</button>
+        <button onclick="action('universite')">📚 Université</button>
+        <button class="btn-success" onclick="action('armee')">🎖️ Armée</button>
+        <button onclick="action('police')">🚔 Police</button>
+        <button onclick="action('politique')">🏛️ Politique</button>
+        <button onclick="action('journal')">📰 Média/Presse</button>
+        <button class="btn-gold" onclick="action('business')">🏢 Créer Entreprise</button>
+        <button class="btn-purple" onclick="action('diamant')">💎 Gagner Diamants</button>
+        <button onclick="action('ami')">🤝 Amis</button>
+        <button class="btn-gold" onclick="action('mariage')">💍 Amour</button>
+        <button class="btn-danger" onclick="action('crime')">🔫 Crime</button>
+        <button class="btn-danger" onclick="action('reset')">🔄 Reset</button>
+    </div>
 
-<h1>BIENVENUE SUR</h1>
-<h1>SERVICE HUB</h1>
-
-<p>🎮 Top-Up • Gaming • Services Digitaux</p>
-
-</header>
-
-
-<div class="container">
-
-
-<div class="app">
-<a href="freefire.html">
-<img src="https://upload.wikimedia.org/wikipedia/en/a/a6/Free_Fire.png">
-<h2>Free Fire</h2>
-<p>Diamants & Top-Up</p>
-</a>
+    <div class="msg-box" id="msg">Bienvenue dans ta vie citoyenne ! Chaque action compte.</div>
 </div>
 
-
-<div class="app">
-<a href="tiktok.html">
-<img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg">
-<h2>TikTok</h2>
-<p>Recharge pièces</p>
-</a>
-</div>
-
-
-<div class="app">
-<a href="netflix.html">
-<img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg">
-<h2>Netflix</h2>
-<p>Abonnement Premium</p>
-</a>
-</div>
-
-
-<div class="app">
-<a href="pubg.html">
-<img src="https://upload.wikimedia.org/wikipedia/en/4/4f/PUBG_Mobile_logo.png">
-<h2>PUBG Mobile</h2>
-<p>UC Recharge</p>
-</a>
-</div><div class="app">
-<a href="roblox.html">
-<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Roblox_Logo_2022.svg">
-<h2>Roblox</h2>
-<p>Robux Recharge</p>
-</a>
-</div>
-
-
-<div class="app">
-<a href="efootball.html">
-<img src="https://upload.wikimedia.org/wikipedia/en/8/86/EFootball_2022_cover_art.jpg">
-<h2>eFootball</h2>
-<p>Coins & Packs</p>
-</a>
-</div>
-
-
-<div class="app">
-<a href="dls.html">
-<img src="https://upload.wikimedia.org/wikipedia/en/1/1c/Dream_League_Soccer_logo.png">
-<h2>Dream League Soccer</h2>
-<p>Coins & Gems</p>
-</a>
-</div>
-
-
-<div class="app">
-<a href="flexcity.html">
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/65/Video_game_controller_icon.svg">
-<h2>Flex City</h2>
-<p>Diamonds, Gold & Bucks</p>
-</a>
-</div>
-
-
-<div class="app">
-<a href="disney.html">
-<img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg">
-<h2>Disney+</h2>
-<p>Abonnement Premium</p>
-</a>
-</div>
-
-
-<div class="app">
-<a href="prime.html">
-<img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png">
-<h2>Prime Video</h2>
-<p>Abonnement Premium</p>
-</a>
-</div>
-
-
-<div class="app">
-<a href="paypal.html">
-<img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg">
-<h2>PayPal</h2>
-<p>Service de paiement</p>
-</a>
-</div>
-
-
-<div class="app">
-<a href="paiement.html">
-<h2>💳 NatCash & MonCash</h2>
-<p>Paiement rapide et sécurisé</p>
-</a>
-</div>
-
-
-</div>
-
-</body>
-  </html><!-- PAGE SERVICE FREE FIRE -->
-
-<div class="card">
-
-<h2>🔥 Free Fire</h2>
-
-<h3>Choisissez votre offre</h3>
-
-<select>
-<option>100 Diamants - 165 HTG</option>
-<option>310 Diamants - 465 HTG</option>
-<option>520 Diamants - 775 HTG</option>
-<option>1060 Diamants - 1600 HTG</option>
-</select>
-
-<input type="text" placeholder="Votre UID Joueur">
-
-<input type="tel" placeholder="Votre numéro WhatsApp">
-
-
-<a class="btn" href="#">
-Commander maintenant
-</a>
-
-</div>
-
-
-<!-- PAGE SERVICE PUBG -->
-
-<div class="card">
-
-<h2>🎮 PUBG Mobile</h2>
-
-<select>
-<option>60 UC - 195 HTG</option>
-<option>300 UC - 910 HTG</option>
-<option>600 UC - 1825 HTG</option>
-</select>
-
-<input type="text" placeholder="Votre UID Joueur">
-
-<input type="tel" placeholder="Votre numéro WhatsApp">
-
-
-<a class="btn" href="#">
-Commander maintenant
-</a>
-
-</div>
-
-
-<!-- PAGE SERVICE TIKTOK -->
-
-<div class="card">
-
-<h2>🎵 TikTok Recharge</h2>
-
-<select>
-<option>30 pièces - 105 HTG</option>
-<option>70 pièces - 295 HTG</option>
-<option>350 pièces - 1275 HTG</option>
-<option>700 pièces - 2595 HTG</option>
-</select>
-
-
-<input type="email" placeholder="Votre adresse Gmail">
-
-
-<input type="tel" placeholder="Votre numéro WhatsApp">
-
-
-<a class="btn" href="#">
-Commander maintenant
-</a>
-
-</div><!-- SERVICES AVEC EMAIL -->
-
-<div class="card">
-
-<h2>📺 Netflix Premium</h2>
-
-<select>
-<option>1 mois - 495 HTG</option>
-<option>2 mois - 995 HTG</option>
-<option>3 mois - 1325 HTG</option>
-</select>
-
-<input type="email" placeholder="Votre Gmail / Email">
-
-<input type="tel" placeholder="Votre numéro WhatsApp">
-
-<a class="btn" href="#">
-Commander maintenant
-</a>
-
-</div>
-
-
-<div class="card">
-
-<h2>🎬 Disney+ Premium</h2>
-
-<select>
-<option>1 mois - 695 HTG</option>
-<option>2 mois - 1295 HTG</option>
-<option>3 mois - 1895 HTG</option>
-</select>
-
-<input type="email" placeholder="Votre Gmail / Email">
-
-<input type="tel" placeholder="Votre numéro WhatsApp">
-
-<a class="btn" href="#">
-Commander maintenant
-</a>
-
-</div>
-
-
-<div class="card">
-
-<h2>🎥 Prime Video</h2>
-
-<select>
-<option>1 mois - 450 HTG</option>
-<option>2 mois - 850 HTG</option>
-<option>3 mois - 1280 HTG</option>
-</select>
-
-<input type="email" placeholder="Votre Gmail / Email">
-
-<input type="tel" placeholder="Votre numéro WhatsApp">
-
-<a class="btn" href="#">
-Commander maintenant
-</a>
-
-</div>
-
-
-<!-- PAIEMENT -->
-
-<div class="card">
-
-<h2>💳 Méthodes de paiement</h2>
-
-<div>
-📱 NatCash
-</div>
-
-<div>
-📱 MonCash
-</div>
-
-<p>Paiement rapide et sécurisé.</p>
-
-</div><!-- FORMULAIRE FINAL DE COMMANDE -->
-
-<div class="card">
-
-<h2>📝 Finaliser votre commande</h2>
-
-<p>Vérifiez vos informations avant d'envoyer.</p>
-
-<input type="text" placeholder="Nom du client">
-
-<input type="tel" placeholder="Votre WhatsApp">
-
-
-<a class="btn" href="https://wa.me/50936365345">
-📲 Envoyer la commande sur WhatsApp
-</a>
-
-</div>
-
-
-<footer>
-
-<p>
-© 2026 SERVICE HUB
-<br>
-Votre plateforme de Top-Up, Gaming et Services Digitaux
-</p>
-
-</footer>
-
-
-</div>
-
+<script>
+    // --- LE CERVEAU DU JEU (Données du citoyen) ---
+    let p = {
+        nom: "Jean", age: 18, sexe: "Homme",
+        argent: 100, diamant: 10,
+        bonheur: 80, energie: 100,
+        pop: 0, diplome: "Aucun", casier: "Propre",
+        amis: 0, metier: "Chômeur", famille: "Célibataire", entreprise: "Aucune"
+    };
+
+    function updateUI() {
+        document.getElementById('s_nom').innerText = p.nom;
+        document.getElementById('s_age').innerText = p.age;
+        document.getElementById('s_argent').innerText = p.argent;
+        document.getElementById('s_diamant').innerText = p.diamant;
+        document.getElementById('s_bonheur').innerText = p.bonheur;
+        document.getElementById('s_energie').innerText = p.energie;
+        document.getElementById('s_pop').innerText = p.pop;
+        document.getElementById('s_diplome').innerText = p.diplome;
+        document.getElementById('s_casier').innerText = p.casier;
+        document.getElementById('s_amis').innerText = p.amis;
+        document.getElementById('s_metier').innerText = p.metier;
+        document.getElementById('s_famille').innerText = p.famille;
+    }
+
+    function msg(text) { document.getElementById('msg').innerText = text; }
+
+    function avancerMois(m) {
+        if(m > 0) {
+            p.age += Math.floor(m / 12);
+            p.energie -= (m * 0.5);
+            if(p.energie < 0) p.energie = 0;
+            if(p.bonheur < 0) p.bonheur = 0;
+            if(p.bonheur > 100) p.bonheur = 100;
+            if(p.energie > 100) p.energie = 100;
+        }
+    }
+
+    function action(type) {
+        let txt = "";
+
+        // 1. TRAVAIL
+        if(type === 'travail') {
+            if(p.energie < 10) txt = "❌ Trop fatigué !";
+            else {
+                p.argent += 250; p.energie -= 10;
+                avancerMois(1);
+                txt = "💼 Mois de travail terminé. +250$";
+            }
+        }
+        // 2. UNIVERSITÉ
+        else if(type === 'universite') {
+            if(p.diplome !== "Aucun") txt = "❌ Diplôme déjà obtenu.";
+            else if(p.argent < 1500) txt = "❌ Frais: 1500$.";
+            else { p.argent -= 1500; p.diplome = "Licence"; avancerMois(12); txt = "🎓 Licence obtenue ! (1 an passé)"; }
+        }
+        // 3. ARMÉE
+        else if(type === 'armee') {
+            if(p.casier === "Sale") txt = "🚫 Casier judiciaire interdit.";
+            else if(p.metier !== "Chômeur") txt = "❌ Démissionne d'abord.";
+            else { p.metier = "Militaire"; p.pop += 5; p.argent += 350; avancerMois(1); txt = "🎖️ Engagé dans l'Armée."; }
+        }
+        // 4. POLICE
+        else if(type === 'police') {
+            if(p.casier === "Sale") txt = "🚫 Interdit pour criminels.";
+            else if(p.metier !== "Chômeur") txt = "❌ Démissionne d'abord.";
+            else { p.metier = "Policier"; p.pop += 5; p.argent += 400; avancerMois(1); txt = "🚔 Vous êtes Officier de Police."; }
+        }
+        // 5. POLITIQUE
+        else if(type === 'politique') {
+            if(p.casier === "Sale") txt = "🚫 Criminel interdit de politique.";
+            else if(p.pop < 40) txt = "📉 Popularité insuffisante (40 requis).";
+            else if(p.metier !== "Chômeur" && p.metier !== "Journaliste") txt = "❌ Tu as un autre métier.";
+            else { p.metier = "Maire"; p.argent += 1500; p.pop += 30; avancerMois(6); txt = "🏛️ Vous êtes le Maire !"; }
+        }
+        // 6. MÉDIAS / PRESSE
+        else if(type === 'journal') {
+            if(p.metier !== "Chômeur" && p.metier !== "Maire") txt = "❌ Démissionne d'abord.";
+            else { p.metier = "Journaliste"; p.pop += 20; p.argent += 300; avancerMois(1); txt = "📰 Vous êtes un journaliste influent."; }
+        }
+        // 7. CRÉER ENTREPRISE
+        else if(type === 'business') {
+            if(p.argent < 5000) txt = "❌ Il faut 5000$ pour créer une entreprise.";
+            else if(p.entreprise !== "Aucune") txt = "❌ Vous avez déjà une entreprise.";
+            else { p.argent -= 5000; p.entreprise = "PME"; p.argent += 1000; avancerMois(3); txt = "🏢 Entreprise créée ! Vous êtes PDG."; }
+        }
+        // 8. DIAMANTS (Monnaie premium)
+        else if(type === 'diamant') {
+            if(p.pop < 10) txt = "❌ Pas assez populaire (10 requis).";
+            else { p.diamant += 5; p.pop -= 5; avancerMois(1); txt = "💎 Vous avez gagné 5 Diamants !"; }
+        }
+        // 9. AMIS
+        else if(type === 'ami') {
+            if(p.amis >= 15) txt = "❌ Vous avez beaucoup d'amis.";
+            else { p.amis += 1; p.bonheur += 5; if(p.bonheur>100) p.bonheur=100; avancerMois(1); txt = "🤝 Nouvel ami ! +5 Bonheur."; }
+        }
+        // 10. AMOUR / MARIAGE
+        else if(type === 'mariage') {
+            if(p.famille !== "Célibataire") txt = "❌ Déjà en couple.";
+            else if(p.argent < 800) txt = "❌ Il faut 800$ pour le mariage.";
+            else { p.argent -= 800; p.famille = "Marié"; p.bonheur += 15; avancerMois(12); txt = "💍 Félicitations ! Vous êtes marié."; }
+        }
+        // 11. CRIME
+        else if(type === 'crime') {
+            if(p.pop > 70) txt = "❌ Trop célèbre, les gens vous ont reconnu !";
+            else { p.argent += 1200; p.casier = "Sale"; p.pop -= 40; p.bonheur -= 20; if(p.bonheur<0) p.bonheur=0; avancerMois(6); txt = "🔫 Crime commis ! Casier SALE. -20 Bonheur."; }
+        }
+        // 12. RESET
+        else if(type === 'reset') {
+            p = { nom: "Jean", age: 18, sexe: "Homme", argent: 100, diamant: 10, bonheur: 80, energie: 100, pop: 0, diplome: "Aucun", casier: "Propre", amis: 0, metier: "Chômeur", famille: "Célibataire", entreprise: "Aucune" };
+            txt = "🔄 Nouvelle vie démarrée.";
+        }
+
+        msg(txt);
+        updateUI();
+    }
+    updateUI();
+</script>
 </body>
 </html>
